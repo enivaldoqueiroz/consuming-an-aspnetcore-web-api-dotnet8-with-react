@@ -1,4 +1,5 @@
 using AlunosApi.Context;
+using AlunosApi.Sevices;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,10 @@ string connectionString = builder.Configuration.GetConnectionString("DefaultConn
 
 builder.Services.AddDbContext<AppDbContext>(
     options => options.UseNpgsql(connectionString));
+#endregion
+
+#region Serviços
+builder.Services.AddScoped<IAlunoService, AlunoService>();
 #endregion
 
 var app = builder.Build();

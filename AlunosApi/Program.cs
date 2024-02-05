@@ -33,6 +33,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//Middleware de roteamento
+app.UseRouting();
+
 app.UseAuthorization();
 
 app.MapControllers();

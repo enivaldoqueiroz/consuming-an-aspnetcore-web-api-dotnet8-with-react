@@ -31,9 +31,9 @@ namespace AlunosApi.Sevices
         {
             IEnumerable<Aluno> alunos;
             
-            if (!string.IsNullOrEmpty(nome))
+            if (!string.IsNullOrWhiteSpace(nome))
             {
-                alunos = await _appDbContext.Alunos.Where(a => a.Nome == nome).ToListAsync();
+                alunos = await _appDbContext.Alunos.Where(a => a.Nome.Contains(nome)).ToListAsync();
             }
             else
             {
@@ -43,7 +43,7 @@ namespace AlunosApi.Sevices
             return alunos;
         }
 
-        public async Task<Aluno> GetAluno(int id)
+        public async Task<Aluno> GetAlunoById(int id)
         {
             Aluno aluno = await _appDbContext.Alunos.FindAsync(id);//O metodo FindAsync primeiro procura na mémoria e caso não ache, procura na tabela.
 

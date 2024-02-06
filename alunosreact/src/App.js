@@ -3,7 +3,7 @@ import './App.css';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
-import { Modal, ModalBoby, ModalFooter, ModalHeader } from 'reactstrap';
+import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import logoCadastro from './assets/cadastro.png';
 
 function App() {
@@ -26,8 +26,25 @@ function App() {
     pedidoGet();
   })
 
+  /*// Supondo que jsonData seja o seu objeto JSON
+  const jsonData = [
+    {
+      id: 1,
+      nome: 'João',
+      email: 'joao@example.com',
+      idade: 25
+    },
+    {
+      id: 2,
+      nome: 'Maria',
+      email: 'maria@example.com',
+      idade: 30
+    },
+    // ... outros objetos
+  ];*/
+
   return (
-    <div className="App">
+    <div className="aluno-container">
       <br/>
       <h3>Cadastro de Alunos</h3>
       <header>
@@ -46,6 +63,20 @@ function App() {
           </tr>
         </thead>
         <tbody>
+          {/*Outra forme de mapear o JSON
+          
+          Object.keys(data).map(key => (
+          <tr key={data[key].id}>
+            <td>{data[key].id}</td>
+            <td>{data[key].nome}</td>
+            <td>{data[key].email}</td>
+            <td>{data[key].idade}</td>
+            <td>
+              <button className='btn btn-primary'>Editar</button>{" "}
+              <button className='btn btn-danger'>Excluir</button>
+            </td>
+          </tr>
+          ))*/}
           {data.map(aluno=>(
             <tr key={aluno.id}>
               <td>{aluno.id}</td>
@@ -60,6 +91,30 @@ function App() {
           ))}
         </tbody>
       </table>
+
+      <Modal>
+        <ModalHeader>Incluir Alunos</ModalHeader>
+        <ModalBody>
+          <div className='form-group'>
+            <label>Nome: </label>
+            <br />
+            <input type='text' className='form-control' />
+            <br />
+            <label>Email: </label>
+            <br />
+            <input type='text' className='form-control'/>
+            <br />
+            <label>Idade: </label>
+            <br />
+            <input type='text' className='form-control'/>
+            <br />
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <button className='btn btn-primary'>Incluir</button>
+          <button className='btn btn-danger'>Cancelar</button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 }

@@ -20,6 +20,8 @@ builder.Services.AddDbContext<AppDbContext>(
 
 #region Serviços
 builder.Services.AddScoped<IAlunoService, AlunoService>();
+
+builder.Services.AddCors();//Adição do serviço CORS
 #endregion
 
 var app = builder.Build();
@@ -30,6 +32,19 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//Configuração do serviço CORS
+app.UseCors(options =>
+{
+    // Permite solicitações provenientes do origin especificado (neste caso, http://localhost:3000)
+    options.WithOrigins("http://localhost:3000");
+
+    // Permite qualquer método HTTP (GET, POST, PUT, DELETE, etc.)
+    options.AllowAnyMethod();
+
+    // Permite qualquer cabeçalho na solicitação
+    options.AllowAnyHeader();
+});
 
 app.UseHttpsRedirection();
 

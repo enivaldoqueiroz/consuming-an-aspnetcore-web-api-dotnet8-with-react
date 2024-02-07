@@ -66,6 +66,9 @@ function App() {
       // Atualiza o estado 'data' com os dados recebidos da resposta da API concatenados aos dados existentes
       setData(data.concat(response.data));
 
+      // Atualiza 'updateData' para evitar chamadas excessivas do useEffect
+      setUpdateData(true);
+      
       // Fecha o modal de inclusão após a conclusão bem-sucedida do POST
       abrirFecharModalIncluir();
     } catch (error) {
@@ -115,6 +118,9 @@ const pedidoPut = async () => {
     // Atualiza o estado 'updateData' para acionar o useEffect
     setUpdateData(true);
 
+    // Atualiza 'updateData' para evitar chamadas excessivas do useEffect
+    setUpdateData(true);
+
     // Fecha o modal de edição após o PUT bem-sucedido
     abrirFecharModalEditar();
   } catch (error) {
@@ -139,6 +145,9 @@ const pedidoDelete = async () => {
 
     // Filtra os dados para remover o aluno excluído com base no ID
     setData(data.filter(aluno => aluno.id !== alunoSelecionado.id));
+
+    // Atualiza 'updateData' para evitar chamadas excessivas do useEffect
+    setUpdateData(true);
 
     // Fecha o modal de exclusão após o DELETE bem-sucedido
     abrirFecharModalExcluir();

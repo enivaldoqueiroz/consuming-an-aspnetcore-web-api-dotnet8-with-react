@@ -11,7 +11,6 @@ function App() {
   const baseUrl = "https://localhost:44349/api/Alunos";
 
   const [data, setData]=useState([]);
-  const [modalIncluir, setModalIncluir]=useState(false);
 
   const [alunoSelecionado, setAlunoSelecionado]=useState({
     id: '',
@@ -19,10 +18,6 @@ function App() {
     email:'',
     idade: ''
   })
-
-  const abrirFecharModalIncluir=()=>{
-    setModalIncluir(!modalIncluir);
-  }
 
   const handleChange = e=>{
     const {name,value} = e.target;
@@ -32,28 +27,52 @@ function App() {
     console.log(alunoSelecionado);
   }
 
-   //Metodo para trazer uma resquest para API Usando AXIOS
-   const pedidoGet = async()=>{
-    await axios.get(baseUrl)
-    .then(response => {
-      setData(response.data);
-    }).catch(error => {
-      console.log(error);
-    })
+  // Estado 'modalIncluir' e função 'setModalIncluir' utilizando o hook useState.
+  const [modalIncluir, setModalIncluir] = useState(false);
+
+  // Função para abrir ou fechar o modal, alternando entre os estados 'true' e 'false'.
+  const abrirFecharModalIncluir = () => {
+    // A função 'setModalIncluir' é utilizada para modificar o estado 'modalIncluir'.
+    // O operador de negação '!' é usado para alternar entre 'true' e 'false'.
+    setModalIncluir(!modalIncluir);
   }
 
-    //Metodo para trazer uma post para API Usando AXIOS
-    const pedidoPost = async()=>{
-      delete alunoSelecionado.id;
-      alunoSelecionado.idade=parseInt(alunoSelecionado.idade);
-      await axios.post(baseUrl, alunoSelecionado)
-      .then(response => {
-        setData(data.concat(response.data));
-        abrirFecharModalIncluir();
-      }).catch(error => {
-        console.log(error);
-      })
+  // Método assíncrono para realizar uma requisição GET à API usando Axios
+  const pedidoGet = async () => {
+    try {
+      // Aguarda a conclusão da requisição GET para a URL especificada (baseUrl)
+      const response = await axios.get(baseUrl);
+
+      // Atualiza o estado 'data' com os dados recebidos da resposta da API
+      setData(response.data);
+    } catch (error) {
+      // Em caso de erro, imprime o erro no console
+      console.log(error);
     }
+  }
+
+  // Método assíncrono para realizar uma requisição POST à API usando Axios
+  const pedidoPost = async () => {
+    // Remove a propriedade 'id' do objeto 'alunoSelecionado' antes de fazer o POST
+    delete alunoSelecionado.id;
+
+    // Converte a propriedade 'idade' do objeto 'alunoSelecionado' para um valor inteiro
+    alunoSelecionado.idade = parseInt(alunoSelecionado.idade);
+
+    try {
+      // Aguarda a conclusão da requisição POST para a URL especificada (baseUrl)
+      const response = await axios.post(baseUrl, alunoSelecionado);
+
+      // Atualiza o estado 'data' com os dados recebidos da resposta da API concatenados aos dados existentes
+      setData(data.concat(response.data));
+
+      // Fecha o modal de inclusão após a conclusão bem-sucedida do POST
+      abrirFecharModalIncluir();
+    } catch (error) {
+      // Em caso de erro, imprime o erro no console
+      console.log(error);
+    }
+  }
 
   useEffect(()=>{
     pedidoGet();

@@ -82,7 +82,7 @@ function App() {
 
   const selecionarAluno=(aluno, opcao)=>{
     setAlunoSelecionado(aluno);
-      (opcao==="Editar") && abrirFecharModalEditar();
+      (opcao==="Editar") ? abrirFecharModalEditar() : abrirFecharModalExcluir();
   }
 
 // Estado 'updateData' e função 'setUpdateData' usando o hook useState.
@@ -117,6 +117,31 @@ const pedidoPut = async () => {
 
     // Fecha o modal de edição após o PUT bem-sucedido
     abrirFecharModalEditar();
+  } catch (error) {
+    // Em caso de erro, imprime o erro no console
+    console.log(error);
+  }
+}
+
+// Estado 'modalExcluir' e função 'setModalExcluir' usando o hook useState.
+const [modalExcluir, setModalExcluir] = useState(false);
+
+// Função para abrir ou fechar o modal de exclusão, alternando entre 'true' e 'false'.
+const abrirFecharModalExcluir = () => {
+  setModalExcluir(!modalExcluir);
+}
+
+// Função assíncrona para realizar uma requisição DELETE à API usando Axios
+const pedidoDelete = async () => {
+  try {
+    // Realiza uma requisição DELETE para a URL específica, com o ID do aluno
+    await axios.delete(baseUrl + "/" + alunoSelecionado.id);
+
+    // Filtra os dados para remover o aluno excluído com base no ID
+    setData(data.filter(aluno => aluno.id !== alunoSelecionado.id));
+
+    // Fecha o modal de exclusão após o DELETE bem-sucedido
+    abrirFecharModalExcluir();
   } catch (error) {
     // Em caso de erro, imprime o erro no console
     console.log(error);
@@ -255,6 +280,16 @@ useEffect(() => {
         <ModalFooter>
           <button className='btn btn-primary' onClick={()=>pedidoPut()}>Editar</button>{"   "}
           <button className='btn btn-danger' onClick={()=>abrirFecharModalEditar()}>Cancelar</button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal isOpen={modalExcluir}>
+        <ModalBody>
+          Confirma a exclusão deste(a) aluno(a) : {alunoSelecionado && alunoSelecionado.nome}
+        </ModalBody>
+        <ModalFooter>
+          <button className='btn btn-danger' onClick={()=>pedidoDelete()}> Sim </button>{"   "}
+          <button className='btn btn-secondary' onClick={()=>abrirFecharModalExcluir()}> Não </button>
         </ModalFooter>
       </Modal>
     </div>

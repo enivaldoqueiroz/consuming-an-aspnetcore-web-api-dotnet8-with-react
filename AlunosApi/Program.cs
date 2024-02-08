@@ -1,5 +1,7 @@
 using AlunosApi.Context;
+using AlunosApi.Services;
 using AlunosApi.Sevices;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,8 +22,13 @@ builder.Services.AddDbContext<AppDbContext>(
 
 #region Serviços
 builder.Services.AddScoped<IAlunoService, AlunoService>();
+builder.Services.AddScoped<IAuthenticateService, AuthenticateService>();
 
 builder.Services.AddCors();//Adição do serviço CORS
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 #endregion
 
 var app = builder.Build();

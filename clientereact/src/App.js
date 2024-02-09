@@ -1,7 +1,9 @@
 import React from 'react';
+import Login from './components/Login'
+import './Global.css';
 
 export default function App() {
   return (
-    <h1>React na veia</h1>
+    <Login />
   );
 }

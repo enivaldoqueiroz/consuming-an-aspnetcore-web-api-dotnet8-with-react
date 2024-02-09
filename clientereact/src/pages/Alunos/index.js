@@ -1,6 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
 import './styles.css';
+import {Link} from 'react-router-dom'
 
 import {FiEdit, FiUserX, FiXCircle} from 'react-icons/fi';
 
@@ -12,7 +12,7 @@ export default function Aluno(){
             <header>
                 <img src={logoCadastro} alt="Cadastro"></img>
                 <span>Bem-Vindo, <strong>Enivaldo</strong>!</span>
-                <Link className='button' to='aluno/novo'>Novo Aluno</Link>
+                <Link className='button' to='aluno/novo/0'>Novo Aluno</Link>{/* Por padrão o Id do aluno será 0 */}
                 <button type='button'>
                     <FiXCircle size={35} color='#17202a' />
                 </button>

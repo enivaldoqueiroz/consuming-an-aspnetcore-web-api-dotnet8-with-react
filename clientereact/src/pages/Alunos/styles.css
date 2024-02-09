@@ -1,0 +1,98 @@
+.aluno-container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 25px;
+    margin: 20px auto;
+}
+
+.aluno-container header {
+    display: flex;
+    align-items: center;
+}
+
+.aluno-container header span {
+    font-size: 20px;
+    margin-left: 25px;
+}
+
+.aluno-container header span strong {
+    color: #333333;
+}
+
+.aluno-container header img {
+    height: 50px;
+}
+
+.aluno-container header a {
+    width: 250px;
+    margin-left: auto;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.aluno-container header button {
+    height: 30px;
+    width: 30px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 0px solid #dcdce6;
+    background: transparent;
+    margin-left: 16px;
+    margin-bottom: 20px;
+    transition: border-color 0.5s;
+}
+
+.aluno-container header button:hover {
+    border-color: #201465;
+}
+
+.aluno-container h1 {
+    margin-top: 20px;
+    margin-bottom: 24px;
+}
+
+.aluno-container ul {
+    display: grid;
+    padding: 0 25px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 35px;
+    list-style: none;
+}
+
+.aluno-container ul li {
+    background: #ffffff;
+    padding: 10px;
+    position: relative;
+}
+
+.aluno-container ul li button {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    border: 0;
+    background: transparent;
+}
+
+.aluno-container ul li button + button {
+    top: 50px;
+}
+
+.aluno-container ul li button:hover {
+    opacity: 0.8;
+}
+
+.aluno-container ul li strong {
+    display: block;
+    margin-bottom: 16px;
+    color: #41414d;
+}
+
+.aluno-container ul li p + strong {
+    margin: 32px;
+}
+
+.aluno-container ul li p {
+    color: #737380;
+    line-height: 21px;
+    font-size: 16px;
+}

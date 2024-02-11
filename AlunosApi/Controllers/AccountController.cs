@@ -1,6 +1,7 @@
 ﻿using AlunosApi.Services;
 using AlunosApi.ViewModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -15,11 +16,13 @@ namespace AlunosApi.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IAuthenticateService _authenticateService;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public AccountController(IConfiguration configuration, IAuthenticateService authenticateService)
+        public AccountController(IConfiguration configuration, IAuthenticateService authenticateService, UserManager<IdentityUser> userManager)
         {
             _configuration = configuration;
             _authenticateService = authenticateService;
+            _userManager = userManager;
         }
 
         [HttpPost("CreateUser")]
@@ -109,13 +112,19 @@ namespace AlunosApi.Controllers
                 expires: expiration,
                 signingCredentials: credenciais);
 
-            return new UserToken()
+            //var user =  _userManager.FindByEmailAsync(userInfoModel.Email);//TODO: Verifica como converter os dasdos Task
+            //var roles = _userManager.GetRolesAsync(user);
+
+            var userToken = new UserToken()
             {
                 Authenticated = true,
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Expiration = expiration,
-                Message = "Token JWT OK"
+                Message = "Token JWT OK",
+                //AccessProfile = "Admin",
             };
+
+            return userToken;
         }
     }
 }

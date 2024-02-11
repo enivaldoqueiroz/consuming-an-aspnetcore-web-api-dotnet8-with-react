@@ -22,12 +22,14 @@ export default function Login(){
 
         try {
             const response = await apiService.post('/api/Account/LoginUser', data);
-        
+            
+            //Dados exibidos no localStorage do navegador (chave | valor)
             localStorage.setItem('email', email);
             localStorage.setItem('token', response.data.token);
-            localStorage.setItem('authenticatedauthenticated', response.data.authenticatedauthenticated);
-            localStorage.setItem('expirationexpiration', response.data.expirationexpiration);
-            localStorage.setItem('messagemessage', response.data.messagemessage);
+            localStorage.setItem('authenticated', response.data.authenticated);
+            localStorage.setItem('expiration', response.data.expiration);
+            localStorage.setItem('message', response.data.message);
+            //localStorage.setItem('accessProfile', response.data.accessProfile);
 
             history('/alunos');//Direiciona para tela de alunos
         } catch(error) {

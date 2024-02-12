@@ -56,6 +56,38 @@ export default function NovoAluno() {
         }
     }
 
+    async function saveOrUpdate(event){
+        // Prevenir o comportamento padrão do formulário (evitar o refresh na página ao clicar no botão 'Incluir')
+        event.preventDefault();
+
+        // Criar um objeto 'data' com os dados do aluno a serem enviados para a API
+        const data = {
+            nome,
+            email,
+            idade
+        }
+
+        try {
+            // Salvar ou Editar aluno na API
+            if (alunoId === '0')
+            {
+                // Se alunoId for '0', é um novo aluno, então utiliza o método POST para salvar
+                await apiService.post('api/alunos', data, authorization); //Post salva
+            }
+            else
+            {
+                // Se alunoId não for '0', é uma edição, então utiliza o método PUT para atualizar
+                data.id = id;// Adiciona o ID ao objeto 'data' para a requisição de edição
+                await apiService.put(`api/alunos/${id}`, data, authorization); //Put edita
+            }                        
+        } catch (error) {
+            // Trata qualquer erro durante o processo de salvamento ou atualização
+            alert('Erro ao gravar aluno ' + error);
+        }
+
+        history('/alunos');
+    }
+
     return (
     // Container principal para o formulário de novo aluno
     <div className='novo-aluno-container'>
@@ -75,8 +107,12 @@ export default function NovoAluno() {
             </section>
             
             {/* Formulário para entrada de detalhes do aluno */}
-            <form>
+            <form onSubmit={saveOrUpdate}>
                 {/* Campo de entrada para o nome do aluno */}
+                {/*
+                    Obs.: Para exibir a informação na tela usamos ex: 'value={nome}'
+                    Obs.: Para realizar o input do usuario usamos ex: 'onChange={e=>setNome(e.target.value)}'
+                */}
                 <input
                     placeholder='Nome'
                     value={nome} // Propriedade value controlada pelo estado 'nome'

@@ -11,7 +11,10 @@ import apiService from '../../services/apiService.js';
 
 export default function Aluno(){
 
-    const[nome, setNome] = useState('');
+    //Filtrar dados
+    const[searchInput, setSearchInput] = useState('');
+    const[filtro, setFiltro] = useState([]);
+
     const[alunos, setAlunos] = useState([]); 
 
     const email = localStorage.getItem('email');
@@ -23,6 +26,25 @@ export default function Aluno(){
       headers: {
         Authorization: `Bearer ${token}`
       }
+    }
+
+    const searchAlunos = (searchValue) => {
+        // Atualiza o estado 'searchInput' com o valor de busca
+        setSearchInput(searchValue);
+    
+        // Verifica se há um valor de busca não vazio
+        if (searchInput !== '') {
+            // Filtra os alunos com base no valor de busca, considerando correspondência em qualquer campo
+            const dadosFiltrados = alunos.filter((item) => {
+                return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
+            });
+    
+            // Atualiza o estado 'filtro' com os dados filtrados
+            setFiltro(dadosFiltrados);
+        } else {
+            // Se o valor de busca for vazio, mostra todos os alunos (sem filtro)
+            setFiltro(alunos);
+        }
     }
   
     useEffect(() => {
@@ -66,29 +88,39 @@ export default function Aluno(){
                 </button>
             </header>
             <form>
-            <input type='text' placeholder='Nome' />
-            <button type='button' className='button'>
-                Filtrar aluno por nome (parcial)
-            </button>
+            <form>
+                <input onChange={(e) => searchAlunos(e.target.value)} type='text' placeholder='filtrar por nome'></input>
+                {/*<button type='button' className='button'>Filtrar aluno por nome (parcial)</button>*/}
+            </form>
             </form>
             <h1>Relação de Alunos</h1>
-            <ul>
-                {alunos.map(aluno=>(
-                    <li key={aluno.id}>
-                        <b>Nome: </b>{aluno.nome}<br/><br/>
-                        <b>Emial: </b>{aluno.email}<br/><br/>
-                        <b>Idade: </b>{aluno.idade}<br/><br/>
+            {searchInput.length > 1 ? (
+                <ul>
+                    {filtro.map(aluno => (
+                        <li key={aluno.id}>
+                            <b>Nome:</b> {aluno.nome}<br /><br />
+                            <b>Email:</b> {aluno.email}<br /><br />
+                            <b>Idade:</b> {aluno.idade}<br /><br />
 
-                        <button onClick={()=> editAluno(aluno.id)} type='button'>
-                            <FiEdit size={25} color='#17202a'></FiEdit>
-                        </button>
+                            <button onClick={() => editAluno(aluno.id)} type='button'><FiEdit size={25} color='#17202a' /></button>
+                            <button ><FiUserX size={25} color='#17202a' /></button>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <ul>
+                    {alunos.map(aluno => (
+                        <li key={aluno.id}>
+                            <b>Nome:</b> {aluno.nome}<br /><br />
+                            <b>Email:</b> {aluno.email}<br /><br />
+                            <b>Idade:</b> {aluno.idade}<br /><br />
 
-                        <button type='button'>
-                            <FiUserX size={25} color='#17202a'></FiUserX>
-                        </button>
-                    </li>
-                ))}
-            </ul>
+                            <button onClick={() => editAluno(aluno.id)} type='button'><FiEdit size={25} color='#17202a' /></button>
+                            <button ><FiUserX size={25} color='#17202a' /></button>
+                        </li>
+                    ))}
+                </ul>
+            )} 
         </div>
     );
 }

@@ -47,6 +47,14 @@ export default function Aluno(){
         }
     }
 
+    async function editAluno(id){
+        try {
+            history(`aluno/novo/${id}`);//Usar as aspas simples invertidadas
+        } catch (error) {
+            alert('Não foi possivel editar o aluno');
+        }
+    }
+
     return (
         <div className="aluno-container">
             <header>
@@ -71,7 +79,7 @@ export default function Aluno(){
                         <b>Emial: </b>{aluno.email}<br/><br/>
                         <b>Idade: </b>{aluno.idade}<br/><br/>
 
-                        <button type='button'>
+                        <button onClick={()=> editAluno(aluno.id)} type='button'>
                             <FiEdit size={25} color='#17202a'></FiEdit>
                         </button>
 

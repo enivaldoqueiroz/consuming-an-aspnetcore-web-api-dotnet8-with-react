@@ -77,6 +77,18 @@ export default function Aluno(){
         }
     }
 
+    async function deleteAluno(id){
+        try {
+            if (window.confirm('Deseja deletar o aluno de Id = ' + id + '?')){
+                await apiService.delete(`api/alunos/${id}`, authorization);
+                setAlunos(alunos.filter(aluno => aluno.id !== id));
+                alert(`Aluno com id ${id} foi deletado com sucesso`);
+            }
+        } catch(error){
+            alert('Não foi possível excluir o aluno');
+        }
+    }
+
     return (
         <div className="aluno-container">
             <header>
@@ -103,7 +115,7 @@ export default function Aluno(){
                             <b>Idade:</b> {aluno.idade}<br /><br />
 
                             <button onClick={() => editAluno(aluno.id)} type='button'><FiEdit size={25} color='#17202a' /></button>
-                            <button ><FiUserX size={25} color='#17202a' /></button>
+                            <button onClick={() => deleteAluno(aluno.id)} type='button'><FiUserX size={25} color='#17202a' /></button>
                         </li>
                     ))}
                 </ul>
@@ -116,7 +128,7 @@ export default function Aluno(){
                             <b>Idade:</b> {aluno.idade}<br /><br />
 
                             <button onClick={() => editAluno(aluno.id)} type='button'><FiEdit size={25} color='#17202a' /></button>
-                            <button ><FiUserX size={25} color='#17202a' /></button>
+                            <button onClick={() => deleteAluno(aluno.id)} type='button'><FiUserX size={25} color='#17202a' /></button>
                         </li>
                     ))}
                 </ul>

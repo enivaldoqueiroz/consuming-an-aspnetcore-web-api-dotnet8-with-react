@@ -53,7 +53,8 @@ export default function Aluno(){
           setAlunos(response.data);
         })
         .catch(error => {
-          console.error('Erro ao carregar os alunos:', error);
+            history('/');
+            console.error('Erro ao carregar os alunos:', error);
         });
     }, []); // Passando um array vazio para executar apenas uma vez
 
